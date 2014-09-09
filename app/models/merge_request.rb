@@ -289,13 +289,11 @@ class MergeRequest < ActiveRecord::Base
   end
 
   def merge_commit_message
-    message = "Merge branch '#{source_branch}' into '#{target_branch}'"
+    message = "Merge request !#{iid}: #{title}"
     message << "\n\n"
-    message << title.to_s
+    message << "This merges branch #{source_branch} from #{source_project.repository.path_with_namespace} into #{target_branch} of #{target_project.repository.path_with_namespace}"
     message << "\n\n"
     message << description.to_s
-    message << "\n\n"
-    message << "See merge request !#{iid}"
     message
   end
 
