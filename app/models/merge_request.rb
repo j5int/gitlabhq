@@ -627,14 +627,14 @@ class MergeRequest < ActiveRecord::Base
     self.target_project.repository.branch_names.include?(self.target_branch)
   end
 
-  def merge_commit_message(include_description: false)
+  def merge_commit_message(include_description: true)
     closes_issues_references = closes_issues.map do |issue|
       issue.to_reference(target_project)
     end
 
     message = [
-      "Merge branch '#{source_branch}' into '#{target_branch}'",
-      title
+      "Merge request !#{iid}: #{title}",
+      "This merges branch #{source_branch} from #{source_project.repository.path_with_namespace} into #{target_branch} of #{target_project.repository.path_with_namespace}"
     ]
 
     if !include_description && closes_issues_references.present?
